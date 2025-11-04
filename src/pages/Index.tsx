@@ -53,6 +53,7 @@ export default function Index() {
   const [memoryInput, setMemoryInput] = useState<number[]>([]);
   const [memoryLevel, setMemoryLevel] = useState(1);
   const [showingSequence, setShowingSequence] = useState(false);
+  const [floatingPoints, setFloatingPoints] = useState<Array<{ id: number; x: number; y: number; value: number }>>([]);
 
   const currentSkinData = skins.find(s => s.id === currentSkin) || SKINS[0];
   const nextMilestone = SKINS.find(s => !s.unlocked)?.unlockAt || 10000;
@@ -71,6 +72,11 @@ export default function Index() {
     if (newlyUnlocked) {
       setSkins(updatedSkins);
       setShowConfetti(true);
+      
+      const successSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAAA=');
+      successSound.volume = 0.5;
+      successSound.play().catch(() => {});
+      
       toast.success(`🎉 Разблокирован скин: ${newlyUnlocked.name}!`, {
         description: `Новый образ доступен в коллекции!`,
       });
@@ -89,14 +95,37 @@ export default function Index() {
     }
   }, [speedTimer, speedGameActive]);
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setClicks(clicks + clickPower);
     setIsClicking(true);
+    
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const newPoint = {
+      id: Date.now() + Math.random(),
+      x,
+      y,
+      value: clickPower
+    };
+    setFloatingPoints(prev => [...prev, newPoint]);
+    
+    const clickSound = new Audio('data:audio/wav;base64,UklGRhIAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YU4AAAA=');
+    clickSound.volume = 0.3;
+    clickSound.play().catch(() => {});
+    
     setTimeout(() => setIsClicking(false), 300);
+    setTimeout(() => {
+      setFloatingPoints(prev => prev.filter(p => p.id !== newPoint.id));
+    }, 1000);
   };
 
   const handleSpeedClick = () => {
     setSpeedClicks(speedClicks + 1);
+    const clickSound = new Audio('data:audio/wav;base64,UklGRhIAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YU4AAAA=');
+    clickSound.volume = 0.3;
+    clickSound.play().catch(() => {});
   };
 
   const startSpeedGame = () => {
@@ -227,18 +256,32 @@ export default function Index() {
               </div>
 
               <div className="flex justify-center mb-6">
-                <button
-                  onClick={handleClick}
-                  className={`relative w-48 h-48 rounded-full shadow-2xl hover:shadow-orange-400/50 transition-all duration-300 hover:scale-105 active:scale-95 ${
-                    isClicking ? 'game-bounce' : ''
-                  } pulse-glow border-8 border-white overflow-hidden`}
-                >
-                  <img 
-                    src="https://cdn.poehali.dev/projects/fcba8f5b-b608-4ea0-a8b1-f2771c8deda0/files/559e93a4-a185-4fe5-89ee-770bc366c785.jpg" 
-                    alt="Trump"
-                    className="w-full h-full object-cover"
-                  />
-                </button>
+                <div className="relative">
+                  <button
+                    onClick={handleClick}
+                    className={`relative w-48 h-48 rounded-full shadow-2xl hover:shadow-orange-400/50 transition-all duration-300 hover:scale-105 active:scale-95 ${
+                      isClicking ? 'game-bounce' : ''
+                    } pulse-glow border-8 border-white overflow-hidden`}
+                  >
+                    <img 
+                      src="https://cdn.poehali.dev/projects/fcba8f5b-b608-4ea0-a8b1-f2771c8deda0/files/559e93a4-a185-4fe5-89ee-770bc366c785.jpg" 
+                      alt="Trump"
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                  {floatingPoints.map(point => (
+                    <div
+                      key={point.id}
+                      className="absolute text-2xl font-bold text-orange-500 pointer-events-none animate-[float-up_1s_ease-out_forwards]"
+                      style={{
+                        left: `${point.x}px`,
+                        top: `${point.y}px`,
+                      }}
+                    >
+                      +{point.value}
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="text-center">

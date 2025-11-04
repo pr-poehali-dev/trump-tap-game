@@ -229,11 +229,15 @@ export default function Index() {
               <div className="flex justify-center mb-6">
                 <button
                   onClick={handleClick}
-                  className={`relative w-48 h-48 rounded-full bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 shadow-2xl hover:shadow-orange-400/50 transition-all duration-300 hover:scale-105 active:scale-95 ${
+                  className={`relative w-48 h-48 rounded-full shadow-2xl hover:shadow-orange-400/50 transition-all duration-300 hover:scale-105 active:scale-95 ${
                     isClicking ? 'game-bounce' : ''
-                  } pulse-glow border-8 border-white`}
+                  } pulse-glow border-8 border-white overflow-hidden`}
                 >
-                  <div className="text-8xl">{currentSkinData.emoji}</div>
+                  <img 
+                    src="https://cdn.poehali.dev/projects/fcba8f5b-b608-4ea0-a8b1-f2771c8deda0/files/559e93a4-a185-4fe5-89ee-770bc366c785.jpg" 
+                    alt="Trump"
+                    className="w-full h-full object-cover"
+                  />
                 </button>
               </div>
 

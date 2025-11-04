@@ -193,7 +193,7 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-100 via-purple-100 to-blue-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 p-4">
       {showConfetti && (
         <div className="fixed inset-0 pointer-events-none z-50 flex items-center justify-center">
           {[...Array(30)].map((_, i) => (
@@ -214,10 +214,10 @@ export default function Index() {
 
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-6">
-          <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-purple-500 to-blue-500 mb-2">
-            Trump Clicker
+          <h1 className="text-5xl font-bold text-slate-800 mb-2">
+            Presidential Clicker
           </h1>
-          <p className="text-lg text-muted-foreground">Кликай и собирай коллекцию!</p>
+          <p className="text-lg text-slate-600">Достигай целей и получай награды</p>
         </div>
 
         <Tabs defaultValue="game" className="w-full">
@@ -237,34 +237,34 @@ export default function Index() {
           </TabsList>
 
           <TabsContent value="game" className="space-y-6">
-            <Card className="p-6 bg-white/80 backdrop-blur-sm shadow-xl">
+            <Card className="p-6 bg-white shadow-lg border border-slate-200">
               <div className="text-center mb-4">
-                <div className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-purple-500">
+                <div className="text-6xl font-bold text-slate-800">
                   {clicks.toLocaleString()}
                 </div>
-                <p className="text-lg text-muted-foreground mt-2">кликов собрано</p>
+                <p className="text-lg text-slate-600 mt-2">очков набрано</p>
               </div>
 
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-medium">До следующего приза</span>
-                  <Badge variant="secondary" className="font-bold">
-                    {nextMilestone - clicks} кликов
+                  <span className="text-sm font-medium text-slate-700">Прогресс до награды</span>
+                  <Badge variant="secondary" className="font-semibold bg-slate-200 text-slate-700">
+                    {nextMilestone - clicks} очков
                   </Badge>
                 </div>
-                <Progress value={progress} className="h-3" />
+                <Progress value={progress} className="h-2" />
               </div>
 
               <div className="flex justify-center mb-6">
                 <div className="relative">
                   <button
                     onClick={handleClick}
-                    className={`relative w-48 h-48 rounded-full shadow-2xl hover:shadow-orange-400/50 transition-all duration-300 hover:scale-105 active:scale-95 ${
+                    className={`relative w-56 h-56 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] active:scale-95 ${
                       isClicking ? 'game-bounce' : ''
-                    } pulse-glow border-8 border-white overflow-hidden`}
+                    } pulse-glow border-4 border-slate-300 overflow-hidden bg-white`}
                   >
                     <img 
-                      src="https://cdn.poehali.dev/projects/fcba8f5b-b608-4ea0-a8b1-f2771c8deda0/files/559e93a4-a185-4fe5-89ee-770bc366c785.jpg" 
+                      src="https://cdn.poehali.dev/projects/fcba8f5b-b608-4ea0-a8b1-f2771c8deda0/files/68d33226-d2ee-415a-a2c8-3724e293a56e.jpg" 
                       alt="Trump"
                       className="w-full h-full object-cover"
                     />
@@ -272,7 +272,7 @@ export default function Index() {
                   {floatingPoints.map(point => (
                     <div
                       key={point.id}
-                      className="absolute text-2xl font-bold text-orange-500 pointer-events-none animate-[float-up_1s_ease-out_forwards]"
+                      className="absolute text-2xl font-bold text-blue-600 pointer-events-none animate-[float-up_1s_ease-out_forwards]"
                       style={{
                         left: `${point.x}px`,
                         top: `${point.y}px`,
@@ -292,15 +292,15 @@ export default function Index() {
               </div>
             </Card>
 
-            <Card className="p-6 bg-white/80 backdrop-blur-sm">
+            <Card className="p-6 bg-white shadow-lg border border-slate-200">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-muted-foreground">Сила клика</p>
-                  <p className="text-3xl font-bold text-purple-600">+{clickPower}</p>
+                  <p className="text-sm text-slate-600">Эффективность</p>
+                  <p className="text-3xl font-bold text-slate-800">+{clickPower}</p>
                 </div>
                 <Button 
                   size="lg" 
-                  className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
                   onClick={() => {
                     if (clicks >= 500) {
                       setClicks(clicks - 500);
@@ -327,12 +327,12 @@ export default function Index() {
               {skins.map(skin => (
                 <Card
                   key={skin.id}
-                  className={`p-6 cursor-pointer transition-all duration-300 hover:scale-105 ${
+                  className={`p-6 cursor-pointer transition-all duration-300 hover:scale-[1.02] ${
                     currentSkin === skin.id
-                      ? 'ring-4 ring-purple-500 bg-purple-50'
+                      ? 'ring-2 ring-blue-500 bg-blue-50 shadow-md'
                       : skin.unlocked
-                      ? 'bg-white/80 backdrop-blur-sm hover:shadow-lg'
-                      : 'bg-gray-100 opacity-60'
+                      ? 'bg-white hover:shadow-lg border-slate-200'
+                      : 'bg-gray-50 opacity-50 border-slate-300'
                   }`}
                   onClick={() => {
                     if (skin.unlocked) {
@@ -355,7 +355,7 @@ export default function Index() {
                       </Badge>
                     )}
                     {skin.unlocked && currentSkin === skin.id && (
-                      <Badge className="text-xs bg-purple-500">
+                      <Badge className="text-xs bg-blue-600">
                         <Icon name="Check" size={12} className="mr-1" />
                         Активен
                       </Badge>
@@ -367,20 +367,20 @@ export default function Index() {
           </TabsContent>
 
           <TabsContent value="minigames" className="space-y-4">
-            <Card className="p-6 bg-white/80 backdrop-blur-sm">
+            <Card className="p-6 bg-white shadow-lg border border-slate-200">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-2xl font-bold flex items-center">
-                    <Icon name="Zap" size={28} className="mr-2 text-orange-500" />
-                    Скоростной клик
+                  <h3 className="text-2xl font-bold flex items-center text-slate-800">
+                    <Icon name="Zap" size={28} className="mr-2 text-slate-700" />
+                    Скоростной режим
                   </h3>
-                  <p className="text-muted-foreground">Кликай максимально быстро за 10 секунд!</p>
+                  <p className="text-slate-600">Кликай максимально быстро за 10 секунд</p>
                 </div>
               </div>
               {!speedGameActive ? (
                 <Button 
                   size="lg" 
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600"
+                  className="w-full bg-slate-700 hover:bg-slate-800 text-white"
                   onClick={startSpeedGame}
                 >
                   Начать игру
@@ -388,12 +388,12 @@ export default function Index() {
               ) : (
                 <div className="space-y-4">
                   <div className="text-center">
-                    <div className="text-6xl font-bold text-orange-500">{speedTimer}</div>
-                    <p className="text-muted-foreground">секунд осталось</p>
+                    <div className="text-6xl font-bold text-slate-800">{speedTimer}</div>
+                    <p className="text-slate-600">секунд осталось</p>
                   </div>
                   <Button 
                     size="lg" 
-                    className="w-full h-32 text-3xl bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700"
+                    className="w-full h-32 text-3xl bg-blue-600 hover:bg-blue-700 text-white"
                     onClick={handleSpeedClick}
                   >
                     КЛИК! ({speedClicks})
@@ -402,16 +402,16 @@ export default function Index() {
               )}
             </Card>
 
-            <Card className="p-6 bg-white/80 backdrop-blur-sm">
+            <Card className="p-6 bg-white shadow-lg border border-slate-200">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-2xl font-bold flex items-center">
-                    <Icon name="Brain" size={28} className="mr-2 text-purple-500" />
-                    Мемори
+                  <h3 className="text-2xl font-bold flex items-center text-slate-800">
+                    <Icon name="Brain" size={28} className="mr-2 text-slate-700" />
+                    Память
                   </h3>
-                  <p className="text-muted-foreground">Запомни и повтори последовательность</p>
+                  <p className="text-slate-600">Запомни и повтори последовательность</p>
                 </div>
-                <Badge variant="outline" className="text-lg px-3 py-1">
+                <Badge variant="outline" className="text-lg px-3 py-1 border-slate-300">
                   Уровень {memoryLevel}
                 </Badge>
               </div>
@@ -419,7 +419,7 @@ export default function Index() {
               {memorySequence.length === 0 ? (
                 <Button 
                   size="lg" 
-                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                  className="w-full bg-slate-700 hover:bg-slate-800 text-white"
                   onClick={startMemoryGame}
                 >
                   Начать игру
@@ -432,8 +432,8 @@ export default function Index() {
                       size="lg"
                       className={`h-24 text-2xl ${
                         showingSequence && memorySequence.includes(num)
-                          ? 'bg-purple-500 animate-pulse'
-                          : 'bg-gradient-to-br from-purple-400 to-pink-400'
+                          ? 'bg-blue-600 animate-pulse text-white'
+                          : 'bg-slate-600 hover:bg-slate-700 text-white'
                       }`}
                       onClick={() => handleMemoryClick(num)}
                       disabled={showingSequence}
@@ -445,23 +445,23 @@ export default function Index() {
               )}
             </Card>
 
-            <Card className="p-6 bg-white/80 backdrop-blur-sm">
+            <Card className="p-6 bg-white shadow-lg border border-slate-200">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="text-2xl font-bold flex items-center">
-                    <Icon name="TrendingUp" size={28} className="mr-2 text-blue-500" />
-                    Лаки-колесо
+                  <h3 className="text-2xl font-bold flex items-center text-slate-800">
+                    <Icon name="TrendingUp" size={28} className="mr-2 text-slate-700" />
+                    Бонусное колесо
                   </h3>
-                  <p className="text-muted-foreground">Крути колесо и выигрывай клики!</p>
+                  <p className="text-slate-600">Испытай удачу и получи награду</p>
                 </div>
               </div>
               <Button 
                 size="lg" 
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600"
+                className="w-full bg-slate-700 hover:bg-slate-800 text-white disabled:bg-slate-300"
                 onClick={spinLuckyWheel}
                 disabled={clicks < 100}
               >
-                {clicks >= 100 ? 'Крутить колесо (100 кликов)' : 'Недостаточно кликов (нужно 100)'}
+                {clicks >= 100 ? 'Крутить колесо (100 очков)' : 'Нужно 100 очков'}
               </Button>
             </Card>
           </TabsContent>
